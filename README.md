@@ -147,5 +147,4 @@ It waits for a system to become ready, then materializes a URL that represents a
 
 ## License
 
-ISC
-
+CC0
