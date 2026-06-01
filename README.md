@@ -2,14 +2,14 @@
 
 A deterministic execution layer that materializes OAM TilePacks into shareable PMTiles URLs.
 
-## What TEARZ Is
+## What TEARZ is
 
-TEARZ is **NOT**:
+TEARZ is **not**:
 - A viewer
 - A tile server
 - A registry system
 
-TEARZ **IS**:
+TEARZ **is**:
 - A deterministic execution runtime that:
   1. Accepts an OAM Image ID
   2. Waits for TilePack API readiness

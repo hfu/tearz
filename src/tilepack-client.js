@@ -20,7 +20,19 @@ export class TilePackClient {
     this.initialDelayMs = 2000;  // Start with 2 seconds
     this.maxDelayMs = 30000;      // Cap at 30 seconds
     this.backoffMultiplier = 1.5; // Exponential backoff multiplier
-    this.maxAttempts = 120;       // Maximum polling attempts (about 1 hour at max delay)
+    this.maxAttempts = 120;       // Maximum polling attempts (up to ~1 hour total)
+  }
+
+  /**
+   * Handle network errors with better error messages
+   * @param {Error} error - Original error
+   * @returns {Error} Enhanced error
+   */
+  handleNetworkError(error) {
+    if (error.cause?.code === 'ENOTFOUND') {
+      return new Error(`Cannot reach TilePack API at ${this.baseUrl}. Please check network connectivity.`);
+    }
+    return error;
   }
 
   /**
@@ -48,10 +60,7 @@ export class TilePackClient {
       const data = await response.json();
       return data;
     } catch (error) {
-      if (error.cause && error.cause.code === 'ENOTFOUND') {
-        throw new Error(`Cannot reach TilePack API at ${this.baseUrl}. Please check network connectivity.`);
-      }
-      throw error;
+      throw this.handleNetworkError(error);
     }
   }
 
@@ -125,10 +134,7 @@ export class TilePackClient {
       const data = await response.json();
       return data;
     } catch (error) {
-      if (error.cause && error.cause.code === 'ENOTFOUND') {
-        throw new Error(`Cannot reach TilePack API at ${this.baseUrl}. Please check network connectivity.`);
-      }
-      throw error;
+      throw this.handleNetworkError(error);
     }
   }
 
