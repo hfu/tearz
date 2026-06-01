@@ -20,6 +20,7 @@ export class TilePackClient {
     this.initialDelayMs = 2000;  // Start with 2 seconds
     this.maxDelayMs = 30000;      // Cap at 30 seconds
     this.backoffMultiplier = 1.5; // Exponential backoff multiplier
+    this.maxAttempts = 120;       // Maximum polling attempts (about 1 hour at max delay)
   }
 
   /**
@@ -65,7 +66,7 @@ export class TilePackClient {
     let delayMs = this.initialDelayMs;
     let attempts = 0;
 
-    while (true) {
+    while (attempts < this.maxAttempts) {
       attempts++;
       
       // Wait before polling (exponential backoff)
@@ -92,6 +93,8 @@ export class TilePackClient {
       // Apply exponential backoff
       delayMs = Math.min(delayMs * this.backoffMultiplier, this.maxDelayMs);
     }
+
+    throw new Error(`TilePack did not reach ready state after ${this.maxAttempts} attempts`);
   }
 
   /**

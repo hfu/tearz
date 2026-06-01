@@ -13,10 +13,10 @@
 import { TilePackClient } from './tilepack-client.js';
 
 /**
- * Main entry point for TEARZ
+ * Materialize a TilePack into a shareable PMTiles URL
  * @param {string} oamImageId - OAM Image ID
  */
-async function tear(oamImageId) {
+async function materializeTilePack(oamImageId) {
   if (!oamImageId) {
     console.error('Error: OAM Image ID is required');
     console.error('Usage: just tear <oam-image-id>');
@@ -53,4 +53,4 @@ async function tear(oamImageId) {
 
 // Run the CLI
 const oamImageId = process.argv[2];
-tear(oamImageId);
+materializeTilePack(oamImageId);
