@@ -32,19 +32,26 @@ export class TilePackClient {
   async requestTilePack(oamImageId) {
     const url = `${this.baseUrl}/${oamImageId}?format=pmtiles`;
     
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json'
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`TilePack request failed: ${response.status} ${response.statusText}`);
       }
-    });
 
-    if (!response.ok) {
-      throw new Error(`TilePack request failed: ${response.status} ${response.statusText}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error.cause && error.cause.code === 'ENOTFOUND') {
+        throw new Error(`Cannot reach TilePack API at ${this.baseUrl}. Please check network connectivity.`);
+      }
+      throw error;
     }
-
-    const data = await response.json();
-    return data;
   }
 
   /**
@@ -100,19 +107,26 @@ export class TilePackClient {
   async checkStatus(oamImageId) {
     const url = `${this.baseUrl}/${oamImageId}?format=pmtiles`;
     
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json'
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`TilePack status check failed: ${response.status} ${response.statusText}`);
       }
-    });
 
-    if (!response.ok) {
-      throw new Error(`TilePack status check failed: ${response.status} ${response.statusText}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      if (error.cause && error.cause.code === 'ENOTFOUND') {
+        throw new Error(`Cannot reach TilePack API at ${this.baseUrl}. Please check network connectivity.`);
+      }
+      throw error;
     }
-
-    const data = await response.json();
-    return data;
   }
 
   /**
