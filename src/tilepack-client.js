@@ -85,7 +85,7 @@ export class TilePackClient {
       }
 
       // Validate expected states
-      if (!['started', 'in_progress'].includes(status.status)) {
+      if (!['not_started', 'started', 'in_progress'].includes(status.status)) {
         throw new Error(`Unexpected TilePack status: ${status.status}`);
       }
 
@@ -136,5 +136,14 @@ export class TilePackClient {
    */
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /**
+   * Construct pmtiles.io viewer URL
+   * @param {string} pmtilesUrl - PMTiles URL
+   * @returns {string} Viewer URL
+   */
+  constructViewerUrl(pmtilesUrl) {
+    return `https://pmtiles.io/?url=${encodeURIComponent(pmtilesUrl)}`;
   }
 }

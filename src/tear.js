@@ -37,7 +37,7 @@ async function tear(oamImageId) {
     const pmtilesUrl = await client.waitForReady(oamImageId);
 
     // Step 4-5: Output results
-    const viewerUrl = `https://pmtiles.io/?url=${encodeURIComponent(pmtilesUrl)}`;
+    const viewerUrl = client.constructViewerUrl(pmtilesUrl);
 
     console.log('\n✓ TilePack is ready!\n');
     console.log('PMTiles URL:');
