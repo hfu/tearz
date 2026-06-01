@@ -20,7 +20,7 @@ export class TilePackClient {
     this.initialDelayMs = 2000;  // Start with 2 seconds
     this.maxDelayMs = 30000;      // Cap at 30 seconds
     this.backoffMultiplier = 1.5; // Exponential backoff multiplier
-    this.maxAttempts = 120;       // Maximum polling attempts (up to ~55 minutes total)
+    this.maxAttempts = 120;       // Maximum polling attempts (~60 minutes at max delay)
   }
 
   /**
