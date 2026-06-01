@@ -23,6 +23,13 @@ async function materializeTilePack(oamImageId) {
     process.exit(1);
   }
 
+  // Validate OAM Image ID format (24 hex characters, MongoDB ObjectId-like)
+  if (!/^[a-f0-9]{24}$/.test(oamImageId)) {
+    console.error('Error: Invalid OAM Image ID format');
+    console.error('Expected: 24 hexadecimal characters (e.g., 6a18bf8e8a50e594a322d68a)');
+    process.exit(1);
+  }
+
   console.log(`Tearing TilePack for OAM Image ID: ${oamImageId}\n`);
 
   const client = new TilePackClient();

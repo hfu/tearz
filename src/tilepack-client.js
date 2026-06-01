@@ -20,7 +20,7 @@ export class TilePackClient {
     this.initialDelayMs = 2000;  // Start with 2 seconds
     this.maxDelayMs = 30000;      // Cap at 30 seconds
     this.backoffMultiplier = 1.5; // Exponential backoff multiplier
-    this.maxAttempts = 120;       // Maximum polling attempts (up to ~1 hour total)
+    this.maxAttempts = 120;       // Maximum polling attempts (up to ~55 minutes total)
   }
 
   /**
@@ -153,6 +153,16 @@ export class TilePackClient {
    * @returns {string} Viewer URL
    */
   constructViewerUrl(pmtilesUrl) {
+    // Validate PMTiles URL format
+    try {
+      const url = new URL(pmtilesUrl);
+      if (url.protocol !== 'https:') {
+        throw new Error('PMTiles URL must use HTTPS protocol');
+      }
+    } catch (error) {
+      throw new Error(`Invalid PMTiles URL: ${error.message}`);
+    }
+    
     return `https://pmtiles.io/?url=${encodeURIComponent(pmtilesUrl)}`;
   }
 }
